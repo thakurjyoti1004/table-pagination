@@ -1,9 +1,6 @@
-import { useState } from "react";
 import "../pagination/style.css";
 
-const Pagination = ({ pages, onPageClick }) => {
-  const [activeBtn, setActiveBtn] = useState(1);
-
+const Pagination = ({ pages, onPageClick, activeBtn }) => {
   const getButton = () => {
     const arr = [];
     for (let i = 1; i <= pages; i++) {
@@ -12,7 +9,6 @@ const Pagination = ({ pages, onPageClick }) => {
           className={`page-btn ${activeBtn === i ? "active" : "not-active"}`}
           onClick={() => {
             onPageClick(i);
-            setActiveBtn(i);
           }}
         >
           {i}
@@ -29,7 +25,6 @@ const Pagination = ({ pages, onPageClick }) => {
         disabled={activeBtn === pages}
         onClick={() => {
           onPageClick(activeBtn + 1);
-          setActiveBtn(activeBtn + 1);
         }}
       >
         {">"}
@@ -40,7 +35,6 @@ const Pagination = ({ pages, onPageClick }) => {
         disabled={activeBtn === 1}
         onClick={() => {
           onPageClick(activeBtn - 1);
-          setActiveBtn(activeBtn - 1);
         }}
       >
         {"<"}

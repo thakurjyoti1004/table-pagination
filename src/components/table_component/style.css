@@ -3,11 +3,16 @@
 body {
   font-family: "Open Sans", sans-serif;
 }
+.header {
+  margin: 20px 135px;
+  display: flex;
+  align-items: center;
+}
 table {
   background: #012b39;
   border-radius: 4px;
   border-collapse: collapse;
-  margin: 30px auto;
+  margin: auto;
   width: 80%;
 }
 th {
@@ -32,4 +37,43 @@ tbody tr:hover {
 
 tr:nth-child(even) {
   background-color: #2e4e58;
+}
+.sort-icon {
+  margin-left: 4px;
+}
+
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(238, 9, 9);
+  font-weight: bolder;
+  font-size: 22px;
+}
+
+select {
+  width: 80px;
+  height: 28px;
+  margin-right: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.download-csv {
+  text-decoration: none;
+  color: white;
+  background: #1d5d72;
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+.search {
+  width: 200px;
+  height: 28px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid;
 }
