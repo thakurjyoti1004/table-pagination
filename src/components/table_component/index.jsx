@@ -7,79 +7,95 @@ import { get } from "lodash";
 import Pagination from "../pagination";
 
 const Table = () => {
-  const [responseData, setResponseData] = useState([]);
   const [paginatedData, setPaginatedData] = useState([]);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(20);
+  const [totalCount, setTotalCount] = useState();
 
   useEffect(() => {
-    fetchTableData();
+    fetchTableData(1, pageSize);
   }, []);
 
-  const fetchTableData = async () => {
+  const fetchTableData = async (pageNo = 1, updatedPageSize) => {
     const response = await axios.get(
-      "https://openlibrary.org/people/mekBot/books/want-to-read.json"
+      `https://openlibrary.org/people/mekBot/books/want-to-read.json?page=${pageNo}&limit=${updatedPageSize}`
     );
     const data = get(response, "data.reading_log_entries", []);
-    setResponseData(data);
-    const pageData = data.slice(0, pageSize);
-    handleAuthorData(pageData);
+    setTotalCount(get(response, "data.numFound", 0));
+    handleAuthorData(data);
   };
 
   const handleAuthorData = async (booksData) => {
     if (booksData.length) {
       const promises = booksData.map(async (book) => {
         const authorEndPoint = book.work.author_names[0];
+        const ratingEndPoint = book.work.key;
+        const bookRatingData = await axios.get(
+          `https://openlibrary.org/${ratingEndPoint}/ratings.json`
+        );
+        const rating = get(bookRatingData, "data.summary.average");
         const authorData = await axios.get(
           `https://openlibrary.org/search/authors.json?q=${authorEndPoint}&limit=1`
         );
         // Append the fetched author data to the book object
-        return { ...book, author: authorData.data };
+        return { ...book, author: authorData.data, rating };
       });
       const pageData = await Promise.all(promises);
       setPaginatedData(pageData);
     }
   };
 
-  const onPageClick = (pageNo) => {
-    const startIndex = pageSize * (pageNo - 1);
-    const endIndex = pageSize * pageNo;
-    const pageData = responseData.slice(startIndex, endIndex);
-    handleAuthorData(pageData);
+  const onPageClick = (pageNo, updatedPageSize = pageSize) => {
+    fetchTableData(pageNo, updatedPageSize);
+  };
+
+  const handlePageSize = (e) => {
+    setPageSize(e.target.value);
+    onPageClick(1, e.target.value);
   };
 
   return (
     <div>
-      <Pagination
-        pages={responseData.length / pageSize}
-        onPageClick={onPageClick}
-      />
+      <select value={pageSize} onChange={handlePageSize}>
+        <option value={20}>20</option>
+        <option value={50}>50</option>
+        <option value={100}>100</option>
+      </select>
       <table className="table_div">
-        <th>Author name</th>
-        <th>Title</th>
-        <th>First publish year</th>
-        <th>Subject</th>
-        <th>Author Birth Date</th>
-        <th>Author Top Work</th>
-        {paginatedData.length > 0 &&
-          paginatedData.map((pageData) => {
-            return (
-              <tbody>
+        <thead>
+          <tr>
+            <th>Author name</th>
+            <th>Title</th>
+            <th>First publish year</th>
+            <th>Subject</th>
+            <th>Author birth date</th>
+            <th>Author top work</th>
+            <th>Rating average</th>
+          </tr>
+        </thead>
+        <tbody>
+          {paginatedData.length > 0 &&
+            paginatedData.map((pageData) => {
+              return (
                 <tr>
                   <td>{get(pageData, "work.author_names", "-")}</td>
                   <td>{get(pageData, "work.title", "-")}</td>
                   <td>{get(pageData, "work.first_publish_year", "-")}</td>
                   <td>
-                    {get(pageData, "author.docs[0].top_subjects", "-").join(
-                      ", "
-                    )}
+                    {get(pageData, "author.docs[0].top_subjects[0]", "-")}
                   </td>
                   <td>{get(pageData, "author.docs[0].birth_date", "-")}</td>
                   <td>{get(pageData, "author.docs[0].top_work", "-")}</td>
+                  <td>{get(pageData, "rating", "-")}</td>
                 </tr>
-              </tbody>
-            );
-          })}
+              );
+            })}
+        </tbody>
       </table>
+
+      <Pagination
+        pages={Math.ceil(totalCount / pageSize)}
+        onPageClick={onPageClick}
+      />
     </div>
   );
 };

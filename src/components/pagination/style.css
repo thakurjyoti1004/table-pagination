@@ -1,12 +1,15 @@
 .page-btn {
   padding: 6px 8px;
-  margin: 6px;
+  margin: 2px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 10px;
   border-radius: 5px;
+  outline: none;
+  border: 1px solid;
 }
 .page-btn:hover {
-  background-color: rgb(147, 147, 243);
+  background-color: #2a6b81;
+  color: white;
 }
 .pagenation-div {
   display: flex;
@@ -19,15 +22,22 @@
 }
 
 .active {
-  background-color: rgb(147, 147, 243);
+  background-color: #2a6b81;
+  color: white;
 }
 .next-btn {
   border-radius: 5px;
-  font-size: 16px;
-  margin-right: 10px;
+  font-size: 10px;
+  margin-right: 3px;
+  border: 1px solid;
+  font-weight: bolder;
+  cursor: pointer;
 }
 .prev-btn {
   border-radius: 5px;
-  font-size: 16px;
-  margin-left: 10px;
+  font-size: 10px;
+  margin-left: 3px;
+  border: 1px solid;
+  font-weight: bolder;
+  cursor: pointer;
 }

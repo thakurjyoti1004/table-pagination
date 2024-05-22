@@ -24,22 +24,27 @@ const Pagination = ({ pages, onPageClick }) => {
 
   return (
     <div className="pagenation-div">
-      <button className="next-btn"
+      <button
+        className="next-btn"
         disabled={activeBtn === pages}
         onClick={() => {
           onPageClick(activeBtn + 1);
           setActiveBtn(activeBtn + 1);
         }}
       >
-        Next
+        {">"}
       </button>
       {getButton()}
-      <button className="prev-btn" 
-      disabled={activeBtn===1}
-      onClick={() =>{
-        onPageClick(activeBtn-1);
-        setActiveBtn(activeBtn-1)
-      }}>Previous</button>
+      <button
+        className="prev-btn"
+        disabled={activeBtn === 1}
+        onClick={() => {
+          onPageClick(activeBtn - 1);
+          setActiveBtn(activeBtn - 1);
+        }}
+      >
+        {"<"}
+      </button>
     </div>
   );
 };
