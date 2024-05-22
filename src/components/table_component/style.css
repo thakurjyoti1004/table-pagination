@@ -1,0 +1,15 @@
+.table_div {
+  border: black 1px solid;
+  margin: 20px auto;
+  text-align: center;
+}
+th {
+  border: black 1px solid;
+  padding: 20px;
+  font-size: 20px;
+}
+td {
+  border: black 1px solid;
+  padding: 20px;
+  font-size: 20px;
+}

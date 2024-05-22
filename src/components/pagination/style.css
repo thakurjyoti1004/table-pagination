@@ -1,0 +1,33 @@
+.page-btn {
+  padding: 6px 8px;
+  margin: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.page-btn:hover {
+  background-color: rgb(147, 147, 243);
+}
+.pagenation-div {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+}
+
+.not-active {
+  background-color: transparent;
+}
+
+.active {
+  background-color: rgb(147, 147, 243);
+}
+.next-btn {
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+.prev-btn {
+  border-radius: 5px;
+  font-size: 16px;
+  margin-left: 10px;
+}

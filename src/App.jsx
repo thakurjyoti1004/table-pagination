@@ -1,9 +1,9 @@
-
+import Table from "./components/table_component";
 function App() {
 
   return (
     <>
-      <div>HELLO</div>
+      <div><Table/></div>
     </>
   );
 }
